@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>My Baptism Applications</h2>
+
+{% if applications %}
+    <ul>
+        {% for application in applications %}
+            <li>
+                <a href="{% url 'view_application' application.id %}">{{ application.name }}</a>
+                <form method="post" action="{% url 'forward_application' application.id %}" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit">Forward</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No applications found. Please <a href="{% url 'new_application' %}">create one</a>.</p>
+{% endif %}
+{% endblock %}

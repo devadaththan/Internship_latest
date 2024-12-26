@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baptism Application Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar styles */
+        .sidebar {
+            width: 250px;
+            background-color: #2c3e50;
+            color: white;
+            padding-top: 20px;
+            position: fixed;
+            height: 100%;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar .profile {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .sidebar .profile img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        .sidebar .profile h3 {
+            margin: 0;
+            font-size: 1.2rem;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            padding: 15px;
+            text-align: center;
+        }
+
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            display: block;
+            padding: 10px 0;
+        }
+
+        .sidebar ul li a:hover {
+            background-color: #34495e;
+            border-radius: 5px;
+        }
+
+        /* Content area */
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+            width: 100%;
+            background-color: #ecf0f1;
+        }
+
+        .content h2 {
+            font-size: 2rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .content .application-details {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .content .application-details:hover {
+            transform: translateY(-5px);
+        }
+
+        .content .application-details p {
+            font-size: 1.2rem;
+            margin: 5px 0;
+        }
+
+        .content .btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .content .btn:hover {
+            background-color: #2980b9;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #2c3e50;
+            color: white;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar navigation -->
+    <div class="sidebar">
+        <div class="profile">
+            <img src="https://via.placeholder.com/80" alt="User Profile Picture"> <!-- Replace with actual profile pic -->
+            <h3>{{ user.username }}</h3>
+        </div>
+        <ul>
+            <li><a href="#">Assigned Baptism Application</a></li>
+            {% comment %} <li><a href="{% url 'register'%}">Create User</a></li> {% endcomment %}
+            <li><a href="#"> Generate Certificates</a></li>
+            <li><a href="{% url 'logout' %}">Sign Out</a></li>
+        </ul>
+    </div>
+
+    <!-- Content Section -->
+    <div class="content">
+        <h2>Assigned Baptism Applications</h2>
+
+        {% if applications %}
+            <!-- Loop through applications and show details -->
+            {% for application in applications %}
+                <div class="application-details">
+                    <p><strong>Baptism ID:</strong> {{ application.basic_baptism_id }}</p>
+                    <p><strong>Child's Name:</strong> {{ application.child_name_first }} {{ application.child_name_second }}</p>
+                    <p><strong>Date of Baptism:</strong> {{ application.date_of_baptism }}</p>
+                    <p><strong>Place of Baptism:</strong> {{ application.place_of_baptism }}</p>
+                    <p><strong>Father's Name:</strong> {{ application.father_name }}</p>
+                    <p><strong>Mother's Name:</strong> {{ application.mother_name }}</p>
+                    <p><strong>Status:</strong> {{ application.status }}</p>
+
+                    <!-- Option to forward the application -->
+                    <form method="post" action="#" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn">Forward</button>
+                    </form>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No Baptism Applications..</p>
+        {% endif %}
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2024 Baptism Application System | All Rights Reserved</p>
+    </div>
+</body>
+</html>
